@@ -27,54 +27,35 @@ void iiwa14_init()
 
 }
 
-void qdd_cal(double *q, double *qd, double *qdd, double *tau, int parIdx)
+void qdd_cal(const double *q, const double *qd, double *qdd, const double *tau, const int parIdx)
 {
-    Eigen::VectorXd q_Eigen   = Eigen::Map<Eigen::VectorXd>(q, model.nv);
-    Eigen::VectorXd qd_Eigen  = Eigen::Map<Eigen::VectorXd>(qd,model.nv);
-    Eigen::VectorXd qdd_Eigen = Eigen::VectorXd::Zero(model.nv);
-    Eigen::VectorXd tau_Eigen = Eigen::Map<Eigen::VectorXd>(tau,model.nv);
+    const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
+    const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
+    const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);
+    MapVector qdd_Eigen = MapVector(qdd, model.nv);
     
     qdd_Eigen = pinocchio::aba(model,data[parIdx-1],q_Eigen,qd_Eigen,tau_Eigen);
-    
-    // to double
-    Eigen::Map<Eigen::VectorXd>(qdd,model.nv) = qdd_Eigen;
-
-//    std::cout << "qdd = " << qdd_Eigen << std::endl;
 }
 
-void sim_qdd_cal(double *q, double *qd, double *qdd, double *tau)
+void sim_qdd_cal(const double *q, const double *qd, double *qdd, const double *tau)
 {
-    Eigen::VectorXd q_Eigen   = Eigen::Map<Eigen::VectorXd>(q, model.nv);
-    Eigen::VectorXd qd_Eigen  = Eigen::Map<Eigen::VectorXd>(qd,model.nv);
-    Eigen::VectorXd qdd_Eigen = Eigen::VectorXd::Zero(model.nv);
-    Eigen::VectorXd tau_Eigen = Eigen::Map<Eigen::VectorXd>(tau,model.nv);
+    const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
+    const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
+    const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);
+    MapVector qdd_Eigen = MapVector(qdd, model.nv);
     
     qdd_Eigen = pinocchio::aba(model,sim_data,q_Eigen,qd_Eigen,tau_Eigen);
-    // to double
-    Eigen::Map<Eigen::VectorXd>(qdd,model.nv) = qdd_Eigen;
-
-//    std::cout << "qdd = " << qdd_Eigen << std::endl;
 }
 
-void derivatives_cal(double *q, double *qd, double *tau, double *dq, double *dqd, double *dtau, int parIdx)
+void derivatives_cal(const double *q, const double *qd, const double *tau, double *dq, double *dqd, double *dtau, const int parIdx)
 {
-    // to eigen
-    Eigen::VectorXd q_Eigen   = Eigen::Map<Eigen::VectorXd>(q, model.nv);
-    Eigen::VectorXd qd_Eigen  = Eigen::Map<Eigen::VectorXd>(qd,model.nv);
-    Eigen::VectorXd tau_Eigen = Eigen::Map<Eigen::VectorXd>(tau,model.nv);
+    const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
+    const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
+    const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);
 
-    Eigen::MatrixXd dq_Eigen(model.nv,model.nv);
-    Eigen::MatrixXd dqd_Eigen(model.nv,model.nv);
-    Eigen::MatrixXd dtau_Eigen(model.nv,model.nv);
+    MapMatrix dq_Eigen   = MapMatrix(dq,  model.nv,model.nv);
+    MapMatrix dqd_Eigen  = MapMatrix(dqd, model.nv,model.nv);
+    MapMatrix dtau_Eigen = MapMatrix(dtau,model.nv,model.nv);
     
     computeABADerivatives(model, data[parIdx-1], q_Eigen, qd_Eigen, tau_Eigen, dq_Eigen, dqd_Eigen, dtau_Eigen);
-    
-    // to double
-    Eigen::Map<Eigen::MatrixXd>(dq,  model.nv,model.nv)   = dq_Eigen;
-    Eigen::Map<Eigen::MatrixXd>(dqd, model.nv,model.nv)   = dqd_Eigen;
-    Eigen::Map<Eigen::MatrixXd>(dtau,model.nv,model.nv)   = dtau_Eigen;
-
-//    std::cout << "dq = " << dq_Eigen << std::endl;
-//    std::cout << "dqd = " << dqd_Eigen << std::endl;
-//    std::cout << "dtau = " << dtau_Eigen << std::endl;
 }

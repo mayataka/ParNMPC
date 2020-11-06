@@ -6,16 +6,20 @@
 #include "pinocchio/algorithm/aba.hpp"
 #include "pinocchio/algorithm/aba-derivatives.hpp"
 
+using MapVector = Eigen::Map<Eigen::VectorXd>;
+using ConstMapVector = Eigen::Map<const Eigen::VectorXd>;
+using MapMatrix = Eigen::Map<Eigen::MatrixXd>;
+
 // init function
 void iiwa14_init();
 
 // calculate qdd for f
-void qdd_cal(double *q, double *qd, double *qdd, double *tau, int parIdx);
+void qdd_cal(const double *q, const double *qd, double *qdd, const double *tau, const int parIdx);
 
 // calculate derivatives for fu and fx
-void derivatives_cal(double *q, double *qd, double *tau, double *dq, double *dqd, double *dtau, int parIdx);
+void derivatives_cal(const double *q, const double *qd, const double *tau, double *dq, double *dqd, double *dtau, const int parIdx);
 
 // simulation model
-void sim_qdd_cal(double *q, double *qd, double *qdd, double *tau);
+void sim_qdd_cal(const double *q, const double *qd, double *qdd, const double *tau);
 
 #endif // IIWA14_H_INCLUDED

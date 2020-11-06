@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(iiwa14_NMPC)
 # --- set compiler flags for pinocchio ---
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -DPINOCCHIO_URDFDOM_TYPEDEF_SHARED_PTR -DPINOCCHIO_URDFDOM_USE_STD_SHARED_PTR -DPINOCCHIO_WITH_URDFDOM -fopenmp -O3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fopenmp ")
 # --- add definitions for vrep ---
 # add_definitions(-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255 -DDO_NOT_USE_SHARED_MEMORY)
 # --- set the directory where the generated executables are placed ---
@@ -16,7 +16,8 @@ add_definitions(${EIGEN_DEFINITIONS})
 # --- find boost_system ---
 find_package(Boost REQUIRED COMPONENTS system)
 # --- add pinocchio header files directory ---
-include_directories(/usr/local/include/pinocchio)
+find_package(pinocchio REQUIRED)
+include_directories(${PINOCCHIO_INCLUDE_DIRS})
 
 # --- set gen_code_directory ---
 set(GEN_CODE_DIR ${CMAKE_SOURCE_DIR}/codegen/lib/Simu_Matlab)
