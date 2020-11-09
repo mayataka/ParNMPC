@@ -40,7 +40,7 @@ Type the following commands in terminal sequentially:
 ```
    $ mkdir build
    $ cd build
-   $ cmake ..
+   $ cmake .. -DCMAKE_BUILD_TYPE=Release
    $ make
    $ cd ../bin
    $ ./iiwa14_NMPC
