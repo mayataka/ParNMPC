@@ -14,7 +14,7 @@ pinocchio::Data sim_data(model);
 
 void iiwa14_init()
 {
-    std::string filename = "../iiwa_description/iiwa14.urdf";
+    const std::string filename = "../iiwa_description/iiwa14.urdf";
     pinocchio::urdf::buildModel(filename,model);
     model.gravity.setZero();
     // init for NMPC
@@ -29,6 +29,9 @@ void iiwa14_init()
 
 void qdd_cal(const double *q, const double *qd, double *qdd, const double *tau, const int parIdx)
 {
+    using MapVector = Eigen::Map<Eigen::VectorXd>;
+    using ConstMapVector = Eigen::Map<const Eigen::VectorXd>;
+    using MapMatrix = Eigen::Map<Eigen::MatrixXd>;
     const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
     const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
     const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);
@@ -39,6 +42,9 @@ void qdd_cal(const double *q, const double *qd, double *qdd, const double *tau, 
 
 void sim_qdd_cal(const double *q, const double *qd, double *qdd, const double *tau)
 {
+    using MapVector = Eigen::Map<Eigen::VectorXd>;
+    using ConstMapVector = Eigen::Map<const Eigen::VectorXd>;
+    using MapMatrix = Eigen::Map<Eigen::MatrixXd>;
     const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
     const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
     const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);
@@ -49,6 +55,9 @@ void sim_qdd_cal(const double *q, const double *qd, double *qdd, const double *t
 
 void derivatives_cal(const double *q, const double *qd, const double *tau, double *dq, double *dqd, double *dtau, const int parIdx)
 {
+    using MapVector = Eigen::Map<Eigen::VectorXd>;
+    using ConstMapVector = Eigen::Map<const Eigen::VectorXd>;
+    using MapMatrix = Eigen::Map<Eigen::MatrixXd>;
     const ConstMapVector q_Eigen = ConstMapVector(q, model.nv);
     const ConstMapVector qd_Eigen = ConstMapVector(qd,model.nv);
     const ConstMapVector tau_Eigen = ConstMapVector(tau,model.nv);

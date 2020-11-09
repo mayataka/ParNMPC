@@ -6,10 +6,6 @@
 #include "pinocchio/algorithm/aba.hpp"
 #include "pinocchio/algorithm/aba-derivatives.hpp"
 
-using MapVector = Eigen::Map<Eigen::VectorXd>;
-using ConstMapVector = Eigen::Map<const Eigen::VectorXd>;
-using MapMatrix = Eigen::Map<Eigen::MatrixXd>;
-
 // init function
 void iiwa14_init();
 

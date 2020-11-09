@@ -18,6 +18,7 @@ find_package(Boost REQUIRED COMPONENTS system)
 # --- add pinocchio header files directory ---
 find_package(pinocchio REQUIRED)
 include_directories(${PINOCCHIO_INCLUDE_DIRS})
+link_libraries(${PINOCCHIO_LIBRARIES})
 
 # --- set gen_code_directory ---
 set(GEN_CODE_DIR ${CMAKE_SOURCE_DIR}/codegen/lib/Simu_Matlab)
